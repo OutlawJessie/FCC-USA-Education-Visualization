@@ -43,18 +43,26 @@ var svgStuff = d3.select(".d3-div")
 var legend = svgStuff.append("g")
     .attr("id", "legend");
 
+// Add description.
+svgStuff.append('text')
+    .attr('x', width/20 )
+    .attr('y', -50)//height + 120)
+    .attr("id", "description")
+    .text('Percentage of adults 25 years of age and older with a bachelors degree.')
+    .attr('font-style', 'italic');
 
-
-// Get json data using D3 fetch method.
-d3.json(EDUCATION_URL)
-  // Promise as function of data...
-    .then(function(data) {
-
-
-
+// Load datasets.
+(async function loadAndVisualizeData() {
+    try {
 	
-  })
-  // Log error if promise on loading data not fulfilled.
-  .catch(function(error) {
-      console.log(error);
-  });
+	// Load datasets.
+	var eduData = await d3.json(EDUCATION_URL);
+	var countyData = await d3.json(COUNTY_URL);
+
+      
+  } catch (error) {console.log(error.name, error.message);}
+
+})(); // Call function in place.
+
+
+
