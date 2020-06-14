@@ -8,6 +8,9 @@ const EDUCATION_URL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testa
 const COUNTY_URL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json';
 
 
+// Sequential 9-class PuBuGn color scheme from colorbrewer2.org
+var colors = ['#fff7fb','#ece2f0','#d0d1e6','#a6bddb','#67a9cf','#3690c0','#02818a','#016c59','#014636'].reverse();
+
 // Set global variables for visualization.
 var width = 800;
 var height = 400;
@@ -59,6 +62,23 @@ svgStuff.append('text')
 	var eduData = await d3.json(EDUCATION_URL);
 	var countyData = await d3.json(COUNTY_URL);
 
+	// Map array of objects containing education level to
+	// array, and get max/min.
+	const bachelorsOrHigher = eduData.map( obj => obj["bachelorsOrHigher"]  );
+	const minEdu = d3.min(bachelorsOrHigher);
+	const maxEdu = d3.max(bachelorsOrHigher);
+
+	// zScale for education levels.
+	const zScale = d3.scaleQuantile()
+	    .domain([minEdu, maxEdu])
+	    .range(colors);
+
+
+	// Create shape generator that that will take a GeoJSON object
+	// and convert it into an SVG path string.
+	const shape = d3.geoPath();
+
+	
       
   } catch (error) {console.log(error.name, error.message);}
 
