@@ -76,9 +76,23 @@ svgStuff.append('text')
 
 	// Create shape generator that that will take a GeoJSON object
 	// and convert it into an SVG path string.
-	const shape = d3.geoPath();
+	const path = d3.geoPath();
 
-	
+
+	// Create choropleth.
+	svgStuff.append("g")
+	    .selectAll("path")// not rect or circle here
+	    .data( topojson.feature(countyData, countyData.objects.counties).features ) 	// Converts topojson to geojson
+	    .enter(  )
+	    .append("path")
+	    .attr("d", path)
+	    .attr("class", "county")
+	    .attr("data-fips", (d)=> d.id)
+	    .attr("data-education", (d) => eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher) // match current county data 'd' id with current education data obj.fips; get zeroth result in array, and get bachelorsOrHigher key 
+	    .attr("fill", (d) => zScale( eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher      ) ); // do the same as last line, but now apply z scale to get color for county d.
+
+
+
       
   } catch (error) {console.log(error.name, error.message);}
 
