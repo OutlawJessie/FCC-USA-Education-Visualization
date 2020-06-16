@@ -31,3 +31,18 @@ h1 {
 svg {
     padding: 10rem;
 }
+
+#tooltip {
+  position: absolute;
+  display: none; /*will set inline block in d3*/
+  min-width: 80px;
+  height: auto;
+  background: #B9BBB6;/* #94ffdf;*/
+  opacity: 0.7;
+  border: 1px solid #f50707;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: black;
+  box-shadow: 3px 3px 20px #B9BBB6;/*#6c96ff;*/
+}

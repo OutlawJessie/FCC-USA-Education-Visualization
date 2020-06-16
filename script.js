@@ -13,13 +13,15 @@ var colors = ['#fff7fb','#ece2f0','#d0d1e6','#a6bddb','#67a9cf','#3690c0','#0281
 
 // Set global variables for visualization.
 var width = 800;
-var height = 400;
+var height = 500;
 var marginLeft = 60;
 var marginTop = 0;//-20; // pull y-axis up.
 
 // Legend stuff.
 var legendRectWidth = 40;
 var legendRectHeight = 30;
+var legendXpos = 0.6*width;
+var legendYpos = -height*1.05;//60; // relative to height
 
 // Add an h1 title.
 var section = d3.select(".header-info")
@@ -91,6 +93,39 @@ svgStuff.append('text')
 	    .attr("data-education", (d) => eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher) // match current county data 'd' id with current education data obj.fips; get zeroth result in array, and get bachelorsOrHigher key 
 	    .attr("fill", (d) => zScale( eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher      ) ); // do the same as last line, but now apply z scale to get color for county d.
 
+	// TODO: Add mouseover.
+
+
+	// Add legend.
+	legend.selectAll("rect")
+	    .data(colors)
+            .enter()
+	    .append("rect")
+	    .attr("height",  legendRectHeight)
+	    .attr("width",  legendRectWidth)
+	    .attr("y", height + legendYpos)
+	    .attr("x", (d, i) => i*legendRectWidth + legendXpos)
+	    .style("fill", (d) => d);
+
+	// Add legend numbers.
+	legend.selectAll("text")
+	    .data(colors)
+	    .enter()
+	    .append("text")
+	    .text( (d) =>{
+		let someNumber = zScale.invertExtent(d)[0]; // color to value
+		return someNumber.toFixed(1); // show one digit
+	    })
+	    .attr("text-anchor", "middle")
+	    .attr("font-size", "12px")
+	    .attr("x", (d, i) => legendRectWidth*(i+0.5 ) +legendXpos )
+	    .attr("y", height + legendYpos + legendRectHeight + 15);
+
+	// Legend text.
+	/*legend.append("text")
+	    .text("Percent")
+            .attr("x", colors.length/2 + legendXpos)
+	    .attr("y", height + legendYpos + legendRectHeight + 40);*/
 
 
       
