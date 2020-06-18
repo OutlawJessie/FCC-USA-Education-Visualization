@@ -98,7 +98,7 @@ svgStuff.append('text')
 		    .style("left", d3.event.pageX - 120 + "px") // Position x coordinate of tooltip relative to current bar
 	        .style("top", d3.event.pageY + 60 + "px") // Position y coordinate of tooltip relative to current bar
 	            .style('transform', 'translateX(' + marginLeft + 'px)')
-		    .html(eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher + '%');
+		    .html(eduData.filter( obj => obj.fips == d.id)[0].area_name + ', ' + eduData.filter( obj => obj.fips == d.id)[0].state + ': ' + eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher + '%');
 	})
 	.on("mouseout", (d) => {
 	    tooltip.style("display","none");
