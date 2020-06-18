@@ -91,10 +91,21 @@ svgStuff.append('text')
 	    .attr("class", "county")
 	    .attr("data-fips", (d)=> d.id)
 	    .attr("data-education", (d) => eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher) // match current county data 'd' id with current education data obj.fips; get zeroth result in array, and get bachelorsOrHigher key 
-	    .attr("fill", (d) => zScale( eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher      ) ); // do the same as last line, but now apply z scale to get color for county d.
+	    .attr("fill", (d) => zScale( eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher      ) ) // do the same as last line, but now apply z scale to get color for county d.
+	    .on("mouseover", (d) => {
+		tooltip.attr("data-education", eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher ) // tooltip test
+		.style('display', 'inline-block')		
+		    .style("left", d3.event.pageX - 120 + "px") // Position x coordinate of tooltip relative to current bar
+	        .style("top", d3.event.pageY + 60 + "px") // Position y coordinate of tooltip relative to current bar
+	            .style('transform', 'translateX(' + marginLeft + 'px)')
+		    .html(eduData.filter( obj => obj.fips == d.id)[0].bachelorsOrHigher + '%');
+	})
+	.on("mouseout", (d) => {
+	    tooltip.style("display","none");
+	});
 
-	// TODO: Add mouseover.
-
+	
+	
 
 	// Add legend.
 	legend.selectAll("rect")
